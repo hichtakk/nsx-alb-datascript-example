@@ -7,9 +7,10 @@ end
 payload = avi.l4.read(0)
 
 -- get client ip
-client = avi.vs.client_ip()
+client_ip = avi.vs.client_ip()
+client_port = avi.vs.client_port()
 
 -- rewrite payload under the condition of payload data pattern
 if string.beginswith(payload, "hello") then
-    avi.l4.modify(strtohex("hello from "..client))
+    avi.l4.modify(strtohex("hello from "..client_ip..":"..client_port))
 end

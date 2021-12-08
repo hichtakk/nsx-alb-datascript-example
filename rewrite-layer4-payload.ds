@@ -1,0 +1,15 @@
+-- convert strings to hex
+function strtohex(str)                                    
+  return (str:gsub('.', function (c) return string.format('%02X', string.byte(c)) end))
+end
+
+-- read entire payload
+payload = avi.l4.read(0)
+
+-- get client ip
+client = avi.vs.client_ip()
+
+-- rewrite payload under the condition of payload data pattern
+if string.beginswith(payload, "hello") then
+    avi.l4.modify(strtohex("hello from "..client))
+end
